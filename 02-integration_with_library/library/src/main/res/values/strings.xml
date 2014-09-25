@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lib_name">rt_02_integration_with_library library</string>
+    <string name="lib_name">lib_name</string>
 </resources>
