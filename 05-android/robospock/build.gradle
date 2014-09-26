@@ -1,0 +1,67 @@
+def props = new Properties()
+file("../local.properties").withInputStream {
+    stream -> props.load(stream)
+}
+
+repositories {
+    maven {
+        url new File(props['sdk.dir'] + "/extras/android/m2repository/").toURI()
+    }
+}
+
+apply plugin: 'groovy'
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:1.8.6"
+    compile 'org.robospock:robospock:0.5.0'
+    compile 'cglib:cglib-nodep:3.1'
+
+    compile project(":app")
+
+    compile fileTree(dir: project(":app").file("build/libs"), include: "*.jar")
+}
+
+sourceSets.test.java.srcDirs += ['../app/build/generated/source/r/release']
+
+test {
+    // enable TestNG support (default is JUnit)
+
+    // set a system property for the test JVM(s)
+    systemProperty 'ro.build.date.utc', '1'
+    systemProperty 'ro.kernel.qemu', '0'
+    // explicitly include or exclude tests
+
+    // show standard out and standard error of the test JVM(s) on the console
+//    testLogging.showStandardStreams = true
+
+    systemProperty 'android.manifest', '../app/src/main/AndroidManifest.xml'
+    systemProperty 'android.resources', '../app/build/intermediates/res/release'
+    systemProperty 'android.assets', '../app/build/intermediates/res/release/raw'
+
+    // set heap size for the test JVM(s)
+    minHeapSize = "128m" // try with 64mb, might decrease startup time
+    maxHeapSize = "1024m"
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=512m'
+
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+
+    // listen to standard out and standard error of the test JVM(s)
+    onOutput { descriptor, event ->
+//        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+    }
+
+    testLogging {
+        lifecycle {
+            exceptionFormat "full"
+        }
+    }
+
+//    workingDir = '../app/src/main'
+}
+
+tasks["compileJava"].dependsOn ":app:zip2jar"
