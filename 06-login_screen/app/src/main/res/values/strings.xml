@@ -4,8 +4,9 @@
     <string name="app_name">rt_06_login_screen</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="toast_button">Toast button</string>
-    <string name="activity_button">Activity button</string>
-    <string name="text_button">Text button</string>
+    <string name="login_button">Login</string>
+    <string name="password_hint">password…</string>
+    <string name="username_hint">email…</string>
+    <string name="error_invalid_username_or_password">Invalid password or username</string>
 
 </resources>
