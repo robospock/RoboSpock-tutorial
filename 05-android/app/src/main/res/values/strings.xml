@@ -4,5 +4,8 @@
     <string name="app_name">rt_05_android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="toast_button">Toast button</string>
+    <string name="activity_button">Activity button</string>
+    <string name="text_button">Text button</string>
 
 </resources>
