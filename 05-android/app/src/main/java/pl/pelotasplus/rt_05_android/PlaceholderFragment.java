@@ -56,4 +56,8 @@ public class PlaceholderFragment extends Fragment {
 
         return rootView;
     }
+
+    public void setLabel(String label) {
+        textView.setText(label);
+    }
 }
