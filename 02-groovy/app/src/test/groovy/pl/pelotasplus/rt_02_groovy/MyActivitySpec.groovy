@@ -1,9 +1,12 @@
-package pl.pelotasplus.rt_03_groovy
+package pl.pelotasplus.rt_02_groovy
 
 import android.app.Activity
+import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import pl.polidea.robospock.RoboSpecification
+import org.robospock.RoboSpecification
+import org.robospock.internal.GradleRoboSputnik
 
+@RunWith(GradleRoboSputnik)
 class MyActivitySpec extends RoboSpecification {
     Activity activity;
 
@@ -132,7 +135,7 @@ class MyActivitySpec extends RoboSpecification {
 
     def "more on closures"() {
         given:
-        def map = ["China": 1 , "India" : 2, "USA" : 3]
+        def map = ["China": 1, "India": 2, "USA": 3]
         def sum = 0
 
         when:

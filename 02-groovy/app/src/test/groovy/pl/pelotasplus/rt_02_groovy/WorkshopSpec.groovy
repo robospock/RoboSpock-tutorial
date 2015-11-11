@@ -1,10 +1,13 @@
-package pl.pelotasplus.rt_03_groovy
+package pl.pelotasplus.rt_02_groovy
 
 import android.app.Activity
+import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import pl.polidea.robospock.RoboSpecification
+import org.robospock.internal.GradleRoboSputnik
+import pl.pelotasplus.rt_02_groovy.MyActivity
 
-class WorkshopSpec extends RoboSpecification {
+@RunWith(GradleRoboSputnik)
+class WorkshopSpec extends org.robospock.RoboSpecification {
     Activity activity;
 
     def "setup"() {
@@ -13,17 +16,18 @@ class WorkshopSpec extends RoboSpecification {
 
     def "activity should have an action bar"() {
         expect:
-        1 == 0
+        activity.actionBar
     }
 
     def "should create a list of 10 'groovy rocks' strings"() {
         when:
-        "create a list here"
+        def l = (1..10).collect({ "groovy rocks" })
 
         then:
-        "make sure it has right size"
-        "make sure it has right elements inside"
-        1 == 0
+        l.size() == 10
+        l.each({
+            it == "groovy rocks"
+        })
     }
 
     def "should make sure that square() method works just fine"() {
@@ -31,11 +35,14 @@ class WorkshopSpec extends RoboSpecification {
         def m = ["a": 1, "b": 4, "c": 9]
 
         when:
-        "we do count squares for each element"
+        m.keySet().each {
+            m[it] = Math.sqrt(m[it])
+        }
 
         then:
-        "each element has right value"
-        1 == 0
+        m.a == 1
+        m.b == 2
+        m.c == 3
     }
 
     def "should make a list without false values"() {
@@ -44,11 +51,12 @@ class WorkshopSpec extends RoboSpecification {
         def o = []
 
         when:
-        "we do our magic"
+        l.each {
+            if (it) o += it
+        }
 
         then:
-        "we have right list in result"
-        1 == 0
+        o == ["android", "ios"]
     }
 
     def "should make a list with placeholder for false values"() {
@@ -56,10 +64,15 @@ class WorkshopSpec extends RoboSpecification {
         def l = [null, "android", [], false, "ios"]
 
         when:
-        "we do our magic"
+        def o = l.collect {
+            if (it) {
+                it
+            } else {
+                "XXX"
+            }
+        }
 
         then:
-        "we have right list in result"
-        1 == 0
+        o == ["XXX", "android", "XXX", "XXX", "ios"]
     }
 }

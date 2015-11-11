@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_03_groovy;
+package pl.pelotasplus.rt_02_groovy;
 
 import android.app.Activity;
 import android.os.Bundle;
