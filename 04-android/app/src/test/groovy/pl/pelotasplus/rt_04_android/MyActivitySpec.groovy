@@ -1,12 +1,16 @@
-package pl.pelotasplus.rt_05_android
+package pl.pelotasplus.rt_04_android
 
 import android.app.Activity
 import android.content.Intent
+import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowToast
 import org.robolectric.util.FragmentTestUtil
-import pl.polidea.robospock.RoboSpecification
+import org.robospock.RoboSpecification
+import org.robospock.internal.GradleRoboSputnik
 
+@RunWith(GradleRoboSputnik)
 class MyActivitySpec extends RoboSpecification {
     def "activity can be easily built"() {
         when:
@@ -65,7 +69,7 @@ class MyActivitySpec extends RoboSpecification {
 
     def "clicking on activity button should start activity"() {
         given:
-        def shadowActivity = Robolectric.shadowOf(activity as Activity)
+        def shadowActivity = Shadows.shadowOf(activity as Activity)
 
         when:
         fragment.activityButton.performClick()

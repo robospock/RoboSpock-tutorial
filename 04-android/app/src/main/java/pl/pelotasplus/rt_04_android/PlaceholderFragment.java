@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_05_android;
+package pl.pelotasplus.rt_04_android;
 
 import android.app.Fragment;
 import android.content.Intent;

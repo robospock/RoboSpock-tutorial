@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+apply plugin: 'groovyx.grooid.groovy-android'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "pl.pelotasplus.rt_04_android"
+        minSdkVersion 19
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events "passed", "skipped", "failed"
+            //, "standardOut", "standardError"
+
+            lifecycle {
+                exceptionFormat "full"
+            }
+        }
+
+        jvmArgs '-XX:MaxPermSize=256m'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile 'org.codehaus.groovy:groovy:2.4.3:grooid'
+    testCompile 'org.robospock:robospock:1.0.0'
+    testCompile 'org.robolectric:android-all:5.0.0_r2-robolectric-1'
+    testCompile 'cglib:cglib-nodep:3.1'
+}
