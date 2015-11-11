@@ -1,12 +1,16 @@
-package pl.pelotasplus.rt_04_spock
+package pl.pelotasplus.rt_03_spock
 
 import android.app.Activity
 import android.widget.TextView
+import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import pl.polidea.robospock.RoboSpecification
+import org.robolectric.RuntimeEnvironment
+import org.robospock.RoboSpecification
+import org.robospock.internal.GradleRoboSputnik
 import spock.lang.Ignore
 import spock.lang.Unroll
 
+@RunWith(GradleRoboSputnik)
 class MyActivitySpec extends RoboSpecification {
     // in spec we have...
 
@@ -112,7 +116,7 @@ class MyActivitySpec extends RoboSpecification {
     @Ignore
     def "errors look pretty"() {
         setup:
-        def tv = new TextView(Robolectric.application)
+        def tv = new TextView(RuntimeEnvironment.application)
 
         when:
         tv.text = "android"
@@ -144,7 +148,7 @@ class MyActivitySpec extends RoboSpecification {
     @Unroll
     def "where blocks work fine with just one value (#label) to be substituted"() {
         setup:
-        def tv = new TextView(Robolectric.application)
+        def tv = new TextView(RuntimeEnvironment.application)
 
         when:
         tv.setText(label)
@@ -156,9 +160,9 @@ class MyActivitySpec extends RoboSpecification {
         label << ["a", "list", "of", "values", "to", "be", "substituted"]
     }
 
-    def "specifications could work as documentation, so description your blocks!"() {
+    def "specifications could work as documentation, so describe your blocks!"() {
         setup: "create ui widget"
-        def tv = new TextView(Robolectric.application)
+        def tv = new TextView(RuntimeEnvironment.application)
 
         when: "set label to #value"
         tv.text = value

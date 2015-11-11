@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_04_spock;
+package pl.pelotasplus.rt_03_spock;
 
 import android.app.Activity;
 import android.os.Bundle;
