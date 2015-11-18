@@ -5,7 +5,7 @@ import org.robospock.RoboSpecification
 import org.robospock.internal.GradleRoboSputnik
 
 @RunWith(GradleRoboSputnik)
-class FirstSpec extends RoboSpecification {
+class GroovySpec extends RoboSpecification {
     def "setup"() {
     }
 
