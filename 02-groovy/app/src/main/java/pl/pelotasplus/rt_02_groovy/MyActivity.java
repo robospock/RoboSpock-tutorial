@@ -36,4 +36,21 @@ public class MyActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static class Person {
+        private int age = -1;
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public int getAgeWithSideEffect() {
+            age++;
+            return age;
+        }
+    }
 }
