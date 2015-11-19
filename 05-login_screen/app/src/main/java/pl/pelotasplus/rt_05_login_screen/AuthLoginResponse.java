@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_06_login_screen;
+package pl.pelotasplus.rt_05_login_screen;
 
 /**
  * Created by alek on 27/09/14.

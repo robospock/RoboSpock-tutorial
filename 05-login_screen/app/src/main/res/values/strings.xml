@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">rt_06_login_screen</string>
+    <string name="app_name">Login App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="login_button">Login</string>
     <string name="password_hint">password…</string>
     <string name="username_hint">email…</string>
     <string name="error_invalid_username_or_password">Invalid password or username</string>
+    <string name="error_empty_username_or_password">Empty username or password</string>
 
 </resources>

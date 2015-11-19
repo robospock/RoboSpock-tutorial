@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_06_login_screen;
+package pl.pelotasplus.rt_05_login_screen;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -42,7 +41,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        apiInterface = getApiInterface();
+        apiInterface = ApiInterface.Utils.getApiInterface();
     }
 
     @Override
@@ -102,6 +101,8 @@ public class LoginFragment extends Fragment {
         String password = getPassword();
 
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            Toast.makeText(getActivity(), R.string.error_empty_username_or_password,
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -209,14 +210,5 @@ public class LoginFragment extends Fragment {
     public void hideErrors() {
         errorTextView.setVisibility(View.INVISIBLE);
         errorTextView.setText("");
-    }
-
-    private static ApiInterface getApiInterface() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(ApiInterface.ENDPOINT)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        return restAdapter.create(ApiInterface.class);
     }
 }
