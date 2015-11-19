@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_04_android;
+package pl.pelotasplus.rt_04_robolectric;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import android.widget.Toast;
  * Created by alek on 26/09/14.
  */
 public class PlaceholderFragment extends Fragment {
-    private Button toastButton, activityButton, textButton;
-    private TextView textView;
+    Button toastButton, activityButton, textButton;
+    TextView textView;
 
     public PlaceholderFragment() {
     }
@@ -30,7 +30,7 @@ public class PlaceholderFragment extends Fragment {
         toastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Test toast!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Hello world toast!", Toast.LENGTH_SHORT).show();
             }
         });
 

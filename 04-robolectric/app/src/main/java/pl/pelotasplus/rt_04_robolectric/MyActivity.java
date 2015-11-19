@@ -1,4 +1,4 @@
-package pl.pelotasplus.rt_04_android;
+package pl.pelotasplus.rt_04_robolectric;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,15 +7,10 @@ import android.view.MenuItem;
 
 
 public class MyActivity extends Activity {
-
-    private boolean isResumed = false;
-    private boolean isCreated = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        isCreated = true;
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -44,12 +39,5 @@ public class MyActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        isResumed = true;
     }
 }

@@ -6,7 +6,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "pl.pelotasplus.rt_04_android"
+        applicationId "pl.pelotasplus.rt_04_robolectric"
         minSdkVersion 19
         targetSdkVersion 20
         versionCode 1
