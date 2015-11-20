@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MyActivity extends Activity {
     @Override
@@ -34,6 +35,7 @@ public class MyActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Settings not implemented yet", Toast.LENGTH_SHORT).show();
             return true;
         }
 

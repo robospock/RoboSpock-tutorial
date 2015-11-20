@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import pl.pelotasplus.rt_05_login_screen.dagger.Injector;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -26,13 +30,26 @@ import retrofit.client.Response;
  * Created by alek on 26/09/14.
  */
 public class LoginFragment extends Fragment {
+    @Bind(R.id.passwordEditText)
     EditText passwordEditText;
+
+    @Bind(R.id.usernameEditText)
     EditText usernameEditText;
-    Button loginButton;
+
+    @Bind(R.id.loginButton)
+    public Button loginButton;
+
+    @Bind(R.id.progressBar)
     ProgressBar progressBar;
+
+    @Bind(R.id.errorTextView)
     TextView errorTextView;
+
+    @Bind(R.id.inputsContainer)
     LinearLayout inputsContainer;
-    private ApiInterface apiInterface;
+
+    @Inject
+    ApiInterface apiInterface;
 
     public LoginFragment() {
     }
@@ -41,7 +58,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        apiInterface = ApiInterface.Utils.getApiInterface();
+        Injector.get().inject(this);
     }
 
     @Override
@@ -49,10 +66,9 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        inputsContainer = (LinearLayout) rootView.findViewById(R.id.inputsContainer);
+        ButterKnife.bind(this, rootView);
 
-        passwordEditText = (EditText) rootView.findViewById(R.id.passwordEditText);
-        passwordEditText.addTextChangedListener(textWatcher);
+        passwordEditText.addTextChangedListener(loginButtonStateTextWatcher);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -64,15 +80,7 @@ public class LoginFragment extends Fragment {
                 return handled;
             }
         });
-        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideErrors();
-                return false;
-            }
-        });
 
-        loginButton = (Button) rootView.findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,21 +88,22 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        errorTextView = (TextView) rootView.findViewById(R.id.errorTextView);
-
-        usernameEditText = (EditText) rootView.findViewById(R.id.usernameEditText);
-        usernameEditText.addTextChangedListener(textWatcher);
-        usernameEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideErrors();
-                return false;
-            }
-        });
+        usernameEditText.addTextChangedListener(loginButtonStateTextWatcher);
 
         return rootView;
     }
+
+    public Callback<AuthLoginResponse> loginResponseCallback = new Callback<AuthLoginResponse>() {
+        @Override
+        public void success(AuthLoginResponse authLoginResponse, Response response) {
+            onSuccess(authLoginResponse);
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            onFailure();
+        }
+    };
 
     public void doLogin() {
         String username = getUsername();
@@ -109,20 +118,10 @@ public class LoginFragment extends Fragment {
         hideErrors();
         showProgress();
 
-        apiInterface.auth_login(username, password, new Callback<AuthLoginResponse>() {
-            @Override
-            public void success(AuthLoginResponse authLoginResponse, Response response) {
-                onSuccess(authLoginResponse);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                onFailure();
-            }
-        });
+        apiInterface.auth_login(username, password, loginResponseCallback);
     }
 
-    private void onSuccess(AuthLoginResponse authLoginResponse) {
+    void onSuccess(AuthLoginResponse authLoginResponse) {
         hideProgress();
 
         if (TextUtils.isEmpty(authLoginResponse.status)) {
@@ -134,17 +133,17 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private void onFailure() {
+    void onFailure() {
         hideProgress();
         showError("Network error");
     }
 
-    private void showError(String error) {
+    void showError(String error) {
         errorTextView.setText(error);
         errorTextView.setVisibility(View.VISIBLE);
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    public TextWatcher loginButtonStateTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable arg0) {
             hideErrors();
@@ -163,9 +162,9 @@ public class LoginFragment extends Fragment {
     /**
      * Enables/disables login button if both username and password are provided.
      */
-    public void enableLoginButtonIfReady() {
-        if (!TextUtils.isEmpty(passwordEditText.getText()) &&
-                !TextUtils.isEmpty(usernameEditText.getText())) {
+    void enableLoginButtonIfReady() {
+        if (!TextUtils.isEmpty(getPassword()) &&
+                !TextUtils.isEmpty(getUsername())) {
             loginButton.setEnabled(true);
         } else {
             loginButton.setEnabled(false);
@@ -174,17 +173,11 @@ public class LoginFragment extends Fragment {
 
     public String getPassword() {
         Editable editable = passwordEditText.getText();
-        if (editable == null) {
-            return null;
-        }
         return editable.toString();
     }
 
     public String getUsername() {
         Editable editable = usernameEditText.getText();
-        if (editable == null) {
-            return null;
-        }
         return editable.toString();
     }
 
