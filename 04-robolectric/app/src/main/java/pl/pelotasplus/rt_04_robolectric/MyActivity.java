@@ -7,6 +7,9 @@ import android.view.MenuItem;
 
 
 public class MyActivity extends Activity {
+    boolean wasResumed;
+    boolean wasCreated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +19,8 @@ public class MyActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        wasCreated = true;
     }
 
 
@@ -24,6 +29,13 @@ public class MyActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        wasResumed = true;
     }
 
     @Override

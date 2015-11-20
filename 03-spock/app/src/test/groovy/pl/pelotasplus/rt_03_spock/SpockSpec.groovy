@@ -173,13 +173,14 @@ class SpockSpec extends RoboSpecification {
 
     def "should call add method"() {
         given:
-        def list = Mock(List)
+        // FIXME mock the list
 
         when:
-        list.add("Leeloo")
+        // FIXME add element
 
         then:
-        1 * list.add(_)
+        // FIXME make sure it was added
+        1 == 1
     }
 
     def "should add member to group"() {
@@ -188,73 +189,57 @@ class SpockSpec extends RoboSpecification {
         def member = new Member()
 
         and:
-        group.members = Mock(List)
+        // FIXME mock something in a Group instance
 
         when:
         group.addMember(member)
 
-        then:
-        1 * group.members.add(member)
+        then: // FIXME check if member was added
+        1 == 1
     }
 
     def "should have 'Robospock' as fifth element of the list"() {
-        given:
-        def list = Mock(List) {
-            get(5) >> "Robospock"
-        }
-
         when:
-        def value = list.get(5)
+        def list = [] // FIXME mock this list
 
         then:
-        value == "Robospock"
+        list.get(5) == "Robospock"
     }
 
     def "should throw exception while accessing fifth element"() {
         given:
-        def list = Mock(List) {
-            get(5) >> {
-                throw new IndexOutOfBoundsException("Mock doesn't like 5th element")
-            }
-        }
+        def list = [] // FIXME we have a mocked list
 
         when:
         list.get(5)
 
         then:
-        def e = thrown(IndexOutOfBoundsException)
-        e.message == "Mock doesn't like 5th element"
+        // FIXME make sure an exception out of bounds was thrown
+        1 == 1
     }
 
     def "should return multiple values while accessing fifth element"() {
         given:
-        def list = Mock(List) {
-            get(5) >>> ["Korben Dallas", "Jean-Baptiste Emanuel Zorg", "Leeloo"]
-        }
+        // FIXME we have a mock with three different return values
 
         when:
-        def first = list.get(5)
-        def second = list.get(5)
-        def third = list.get(5)
+        // FIXME when we make a three calls
 
         then:
-        first == "Korben Dallas"
-        second == "Jean-Baptiste Emanuel Zorg"
-        third == "Leeloo"
+        // FIXME we will get three different values
+        1 == 1
     }
 
     def "should call add method with various arguments"() {
         given:
-        def list = Mock(List)
+        // FIXME we have a list mock
 
         when:
-        list.add("Leeloo")
-        list.add("Korben Dallas")
+        // FIXME we add few elements
 
         then:
-        1 * list.add("Leeloo")
-        1 * list.add("Korben Dallas")
-        0 * list.add("Jean-Baptiste Emanuel Zorg")
+        // FIXME we can check all the add() calls
+        1 == 1
     }
 
     // Data driven Spocking!
@@ -262,7 +247,7 @@ class SpockSpec extends RoboSpecification {
     @Unroll
     def "should make strings upper case"() {
         expect:
-        argument.toUpperCase() == result
+        // FIXME make string upper case
 
         where:
         argument     | result
@@ -275,46 +260,47 @@ class SpockSpec extends RoboSpecification {
     @Unroll
     def "should set age to #age years"() {
         setup:
-        def member = new Member()
+        // FIXME with a member
 
         when:
-        member.age = age
+        // FIXME when we set age
 
         then:
-        member.age == age
+        // FIXME it is set, wow!
 
         where:
-        age << [0, 10, 20, 40]
+        // FIXME for many different age values
+        []
     }
 
     @Unroll
     def "should and #cnt members to group"() {
         given:
-        def group = new Group()
+        // FIXME with a group
 
         when:
-        cnt.times { group.addMember(Mock(Member)) }
+        // FIXME when we add a members
 
         then:
-        group.members.size() == cnt
+        // FIXME then group size is right, wow!
 
         where:
-        cnt << [0, 5, 10, 20]
+        // FIXME for many different members counts
+        []
     }
 
     def "should set both age and name"() {
         given:
-        def spy = Spy(Member, constructorArgs: [])
+        // FIXME we have 'special' kind of mock
 
         when:
-        spy.setNameAndAge("Alex", 40)
+        // FIXME we set a name and age
 
         then:
-        1 * spy.setName("Alex")
-        1 * spy.setAge(40)
+        // FIXME then both fields were set
 
         and:
-        spy.name == "Alex"
-        spy.age == 40
+        // FIXME and setters where called
+        1 == 1
     }
 }

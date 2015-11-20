@@ -16,6 +16,10 @@ public class Person {
         this.age = age;
     }
 
+    public void bumpAge() {
+        age++;
+    }
+
     public String getName() {
         return name;
     }
@@ -26,10 +30,6 @@ public class Person {
 
     public int getHeight() {
         return height;
-    }
-
-    public void bumpAge() {
-        age++;
     }
 
     // WARNING -- has side effect, sets age as well!

@@ -52,12 +52,12 @@ class GroovySpec extends RoboSpecification {
 
     def "it's better to compare return type to protect against NPE"() {
         expect:
-        listFunc() == []
+        !nullFunc()
         !listFunc()
 
         and:
         nullFunc() != []
-        !nullFunc()
+        listFunc() == []
     }
 
     def "lists are easy"() {
@@ -130,16 +130,16 @@ class GroovySpec extends RoboSpecification {
         given:
         def names = ["alex", "tomas", "juri"]
 
-        when:
-        def list = names.collect({ it.toUpperCase() })
+        when: // FIXME create new list based on names
+        def list = []
 
         then:
         list == ["ALEX", "TOMAS", "JURI"]
     }
 
     def "should be a list of first 4 odd numbers"() {
-        when:
-        def list = (0..3).collect { it * 2 }
+        when: // FIXME create new list
+        def list = []
 
         then:
         list == [0, 2, 4, 6]
@@ -153,7 +153,7 @@ class GroovySpec extends RoboSpecification {
         person.age = 40
 
         when:
-        10.times { person.bumpAge() }
+        // FIXME bumpAge a few times
 
         then:
         person.age == 50
@@ -163,8 +163,8 @@ class GroovySpec extends RoboSpecification {
         given:
         def list = ["android", "ios", "windows phone"]
 
-        when:
-        def string = list.join(" ")
+        when: // FIXME convert list to a string
+        def string = ""
 
         then:
         string == "android ios windows phone"
@@ -176,40 +176,39 @@ class GroovySpec extends RoboSpecification {
         def sum = 0
 
         when:
-        map.each { sum += it.value }
+        // FIXME iterate over a map
 
         then:
         sum == 6
     }
 
     def "should create a list of 10 'groovy rocks' strings"() {
-        when:
-        def list = (1..10).collect({ "groovy rocks" })
+        when: // FIXME create a list
+        def list = []
 
-        then:
-        list.size() == 10
-        list.each { assert it == "groovy rocks" }
+        then: // FIXME make sure it has right size and correct elemnts
+        list == []
     }
 
     def "should make sure that square() method works just fine"() {
         given:
-        def m = ["a": 1, "b": 4, "c": 9]
+        def map = ["a": 1, "b": 4, "c": 9]
 
         when:
-        m.each { m[it.key] = Math.sqrt(it.value) }
+        // FIXME update map in place
 
         then:
-        m.a == 1
-        m.b == 2
-        m.c == 3
+        map.a == 1
+        map.b == 2
+        map.c == 3
     }
 
     def "should make a list without false values"() {
         given:
         def list = [null, "android", [], false, "ios"]
 
-        when:
-        def positive = list.findAll { it }
+        when: // FIXME filter list somehow
+        def positive = []
 
         then:
         positive == ["android", "ios"]
@@ -217,23 +216,23 @@ class GroovySpec extends RoboSpecification {
 
     def "should make a list with placeholder for false values"() {
         given:
-        def l = [null, "android", [], false, "ios"]
+        def list = [null, "android", [], false, "ios"]
 
-        when:
-        def o = l.collect { it ? it : "XXX" }
+        when: // FIXME crate a new list based on original one
+        def outList = []
 
         then:
-        o == ["XXX", "android", "XXX", "XXX", "ios"]
+        outList == ["XXX", "android", "XXX", "XXX", "ios"]
     }
 
     def "should make sure that list contains only nexus devices"() {
         given:
         def devices = ["nexus 4", "nexus 10", "nexus 7", "tomek"]
 
-        when:
-        def nexuses = devices.findAll { it.startsWith("nexus") }
+        when: // FIXME filter devices list to create output one
+        def nexuses = []
 
         then:
-        nexuses == ["nexus 4", "nexus 10", "nexus 7"]
+        nexuses.every { it.startsWith("nexus") }
     }
 }

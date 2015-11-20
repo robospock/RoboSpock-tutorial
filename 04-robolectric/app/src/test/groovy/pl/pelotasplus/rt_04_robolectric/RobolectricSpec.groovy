@@ -28,6 +28,8 @@ class RobolectricSpec extends RoboSpecification {
 
         then:
         act instanceof MyActivity
+        act.wasCreated
+        !act.wasResumed
     }
 
     def "and even resumed"() {
@@ -36,6 +38,10 @@ class RobolectricSpec extends RoboSpecification {
 
         expect:
         act instanceof MyActivity
+
+        and:
+        act.wasCreated
+        act.wasResumed
     }
 
     def "fragments could be created with helper utility"() {
@@ -73,52 +79,50 @@ class RobolectricSpec extends RoboSpecification {
 
     def "should have empty views if not created via activity"() {
         given:
-        def fragment = new PlaceholderFragment()
+        // FIXME create a fragment
 
         expect:
-        !fragment.textView
-        !fragment.toastButton
-        !fragment.activityButton
-        !fragment.textButton
+        // FIXME it's lifecycle wasn't processed
+        1 == 1
     }
 
     def "should have all views set when created via activity"() {
         given:
-        def fragment = new PlaceholderFragment()
+        // FIXME create a fragment
 
         when:
-        FragmentTestUtil.startFragment(fragment)
+        // FIXME we attach fragment to activity
 
         then:
-        fragment.textView
-        fragment.toastButton
-        fragment.activityButton
-        fragment.textButton
+        // FIXME onCreateView will be called, so fields will be set
+        1 == 1
     }
 
     def "should have text button set"() {
         expect:
-        Shadows.shadowOf(fragment.toastButton).onClickListener
+        // FIXME button should has click listener
 
         and:
-        fragment.toastButton.text == RuntimeEnvironment.application
-                .getString(R.string.toast_button)
+        // FIXME and also correct label (getText())
+        1 == 1
     }
 
     def "should show toast"() {
         when:
-        fragment.toastButton.performClick()
+        // FIXME i click on the button
 
         then:
-        ShadowToast.latestToast
+        // FIXME a toast will be shown
+        1 == 1
     }
 
     def "should have contains hello world in toast message"() {
         when:
-        fragment.toastButton.performClick()
+        // FIXME i click on the button
 
         then:
-        ShadowToast.textOfLatestToast =~ "Hello world"
+        // FIXME a toast will have correct text
+        1 == 1
     }
 
     def "should have activity button set"() {
@@ -132,45 +136,44 @@ class RobolectricSpec extends RoboSpecification {
 
     def "clicking on activity button should start activity"() {
         given:
-        def shadowActivity = Shadows.shadowOf(activity)
+        // FIXME maybe some preparation is needed ;-)
 
         when:
         fragment.activityButton.performClick()
 
         then:
-        Intent startedIntent = shadowActivity.peekNextStartedActivity();
-        startedIntent.action == Intent.ACTION_VIEW
+        // FIXME an intent was started!
+        1 == 1
     }
 
     def "clicking on text button should change text"() {
         when:
-        assert fragment.textView.text == "Hello world!"
-
-        fragment.textButton.performClick()
+        // FIXME i click on a button
 
         then:
-        fragment.textView.text == "RoboSpock!"
+        // FIXME text label changes
+        1 == 1
     }
 
     def "should set label"() {
         when:
-        fragment.setLabel("label text")
+        // FIXME i call fragments method to set label
 
         then:
-        fragment.textView.text == "label text"
+        // FIXME a label is set
+        1 == 1
     }
 
     def "should have empty views but mock will help us!"() {
         given:
-        def fragment = new PlaceholderFragment()
+        // FIXME we have a fragment but we don't run it through a lifecycle
 
-        and:
-        fragment.textView = Mock(TextView)
 
         when:
-        fragment.setLabel("label")
+        // FIXME i call fragments method to set label
 
         then:
-        1 * fragment.textView.setText("label")
+        // FIXME a label is set
+        1 == 1
     }
 }
