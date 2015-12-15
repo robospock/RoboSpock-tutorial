@@ -1,7 +1,9 @@
 package pl.pelotasplus.rt_05_login_screen
 
+import android.app.Fragment
 import android.text.Editable
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -19,19 +21,18 @@ import spock.lang.Unroll
 @RunWith(GradleRoboSputnik)
 class LoginFragmentSpec extends RoboSpecification {
     LoginFragment fragment
-    ApiInterface apiMock
+    ApiInterface apiInterfaceMock
 
     def "setup"() {
-        apiMock = Mock(ApiInterface)
+        apiInterfaceMock = Mock(ApiInterface)
+        fragment = LoginFragment.newInstance()
 
         Injector.start(new TestModule() {
             @Override
             ApiInterface provideApiInterface() {
-                apiMock
+                apiInterfaceMock
             }
         })
-
-        fragment = LoginFragment.newInstance()
 
         FragmentTestUtil.startFragment(fragment)
     }
@@ -40,15 +41,12 @@ class LoginFragmentSpec extends RoboSpecification {
     }
 
     def "should hide errors"() {
-        given:
-        fragment.errorTextView = Mock(TextView)
-
         when:
         fragment.hideErrors()
 
         then:
-        1 * fragment.errorTextView.setVisibility(View.INVISIBLE)
-        1 * fragment.errorTextView.setText("")
+        fragment.errorTextView.visibility == View.INVISIBLE
+
     }
 
     def "should show progress"() {
@@ -101,46 +99,21 @@ class LoginFragmentSpec extends RoboSpecification {
         username << ["Oksana", "Pavel", "Alina"]
     }
 
-    @Unroll
-    def "should enable login button"() {
-        given:
-        fragment.passwordEditText.text = passwd
-        fragment.usernameEditText.text = username
-
-        when:
-        fragment.enableLoginButtonIfReady()
-
-        then:
-        fragment.loginButton.enabled == isEnabled
-
-        where:
-        passwd   | username | isEnabled
-        null     | "Alina"  | false
-        "Oksana" | "Pavel"  | true
-        "Maciej" | ""       | false
-        null     | ""       | false
-    }
-
     def "should hide errors when chanigng login/password"() {
         given:
         def spy = Spy(LoginFragment, constructorArgs: [])
-
-        and:
         FragmentTestUtil.startFragment(spy)
+
 
         when:
         spy.loginButtonStateTextWatcher.afterTextChanged(Mock(Editable))
 
         then:
         1 * spy.hideErrors()
-        1 * spy.enableLoginButtonIfReady()
     }
 
     def "should show error"() {
         given:
-        fragment.errorTextView = Mock(TextView)
-
-        and:
         def error = "Error #666"
 
         when:
@@ -266,10 +239,11 @@ class LoginFragmentSpec extends RoboSpecification {
         fragment.usernameEditText.text = "username"
 
         when:
-        fragment.doLogin()
+        fragment.loginButton.performClick()
+
 
         then:
-        1 * apiMock.auth_login("username", "passwd", _)
+        1 * apiInterfaceMock.auth_login("username", "passwd", _)
     }
 
     def "should call onSuccess on successful retrofit response"() {
