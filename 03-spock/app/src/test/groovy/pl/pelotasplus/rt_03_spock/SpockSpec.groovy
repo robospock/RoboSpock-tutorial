@@ -1,5 +1,6 @@
 package pl.pelotasplus.rt_03_spock
 
+import android.accounts.Account
 import org.junit.runner.RunWith
 import org.robospock.RoboSpecification
 import org.robospock.internal.GradleRoboSputnik
@@ -159,14 +160,14 @@ class SpockSpec extends RoboSpecification {
     }
 
     def "specification acts as documentation"() {
-        given: "an empty bank account"
-        // def account = Mock(Account)
+        given: "an empty account"
+        def account = Mock(Account)
 
-        when: "the account is credited \$10"
-        // account.setCredit(10)
+        when: "the account name is set"
+        account.name = "Robospock"
 
-        then: "the account's balance is \$10"
-        // account.getCredit() == 10
+        then: "the account's name has value"
+        account.name == "Robospock"
     }
 
     // Mock Spocking!
@@ -174,9 +175,11 @@ class SpockSpec extends RoboSpecification {
     def "should call add method"() {
         given:
         // FIXME mock the list
+        def list = []
 
         when:
         // FIXME add element
+        list
 
         then:
         // FIXME make sure it was added
@@ -190,6 +193,7 @@ class SpockSpec extends RoboSpecification {
 
         and:
         // FIXME mock something in a Group instance
+        member
 
         when:
         group.addMember(member)
@@ -221,9 +225,11 @@ class SpockSpec extends RoboSpecification {
     def "should return multiple values while accessing fifth element"() {
         given:
         // FIXME we have a mock with three different return values
+        def list = []
 
         when:
         // FIXME when we make a three calls
+        list
 
         then:
         // FIXME we will get three different values
@@ -233,9 +239,11 @@ class SpockSpec extends RoboSpecification {
     def "should call add method with various arguments"() {
         given:
         // FIXME we have a list mock
+        def list = []
 
         when:
         // FIXME we add few elements
+        list
 
         then:
         // FIXME we can check all the add() calls
@@ -261,46 +269,55 @@ class SpockSpec extends RoboSpecification {
     def "should set age to #age years"() {
         setup:
         // FIXME with a member
+        def member
 
         when:
         // FIXME when we set age
+        member
 
         then:
         // FIXME it is set, wow!
+        member
 
         where:
         // FIXME for many different age values
-        []
+        age << []
     }
 
     @Unroll
     def "should and #cnt members to group"() {
         given:
         // FIXME with a group
+        def group = new Group()
 
         when:
         // FIXME when we add a members
+        group
 
         then:
         // FIXME then group size is right, wow!
+        group.members.size()
 
         where:
         // FIXME for many different members counts
-        []
+        cnt << []
     }
 
     def "should set both age and name"() {
         given:
         // FIXME we have 'special' kind of mock
+        def spy = []
 
         when:
         // FIXME we set a name and age
+        spy
 
         then:
         // FIXME then both fields were set
+        spy
 
         and:
         // FIXME and setters where called
-        1 == 1
+        spy
     }
 }
