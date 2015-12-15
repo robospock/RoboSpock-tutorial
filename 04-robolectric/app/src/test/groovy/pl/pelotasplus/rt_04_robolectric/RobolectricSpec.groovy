@@ -18,7 +18,7 @@ class RobolectricSpec extends RoboSpecification {
     PlaceholderFragment fragment
 
     def "setup"() {
-        activity = Robolectric.buildActivity(MyActivity).create().resume().get()
+        activity = Robolectric.buildActivity(MyActivity.class).create().resume().get()
         fragment = activity.getFragmentManager().findFragmentById(R.id.container) as PlaceholderFragment
     }
 
@@ -79,27 +79,28 @@ class RobolectricSpec extends RoboSpecification {
 
     def "should have empty views if not created via activity"() {
         given:
-        // FIXME create a fragment
+        def f = PlaceholderFragment.newInstance()
 
         expect:
-        // FIXME it's lifecycle wasn't processed
-        1 == 1
+        !f.textView
+        !f.activityButton
     }
 
     def "should have all views set when created via activity"() {
         given:
-        // FIXME create a fragment
+        def f = PlaceholderFragment.newInstance()
 
         when:
-        // FIXME we attach fragment to activity
+        FragmentTestUtil.startFragment(f)
 
         then:
-        // FIXME onCreateView will be called, so fields will be set
-        1 == 1
+        f.textView
+        f.textView.text == "Hello world"
     }
 
     def "should have text button set"() {
         expect:
+        1
         // FIXME button should has click listener
 
         and:
@@ -109,25 +110,23 @@ class RobolectricSpec extends RoboSpecification {
 
     def "should show toast"() {
         when:
-        // FIXME i click on the button
+        fragment.toastButton.performClick()
 
         then:
-        // FIXME a toast will be shown
-        1 == 1
+        ShadowToast.latestToast
     }
 
     def "should have contains hello world in toast message"() {
         when:
-        // FIXME i click on the button
+        fragment.toastButton.performClick()
 
         then:
-        // FIXME a toast will have correct text
-        1 == 1
+        ShadowToast.textOfLatestToast == "hrll"
     }
 
     def "should have activity button set"() {
         expect:
-        Shadows.shadowOf(fragment.activityButton).onClickListener
+        Shadows.shadowOf(fragment.activityButton).getOnClickListener()
 
         and:
         fragment.activityButton.text == RuntimeEnvironment.application
@@ -136,6 +135,7 @@ class RobolectricSpec extends RoboSpecification {
 
     def "clicking on activity button should start activity"() {
         given:
+        1
         // FIXME maybe some preparation is needed ;-)
 
         when:
@@ -148,6 +148,7 @@ class RobolectricSpec extends RoboSpecification {
 
     def "clicking on text button should change text"() {
         when:
+        1
         // FIXME i click on a button
 
         then:
@@ -157,6 +158,7 @@ class RobolectricSpec extends RoboSpecification {
 
     def "should set label"() {
         when:
+        1
         // FIXME i call fragments method to set label
 
         then:
@@ -166,10 +168,11 @@ class RobolectricSpec extends RoboSpecification {
 
     def "should have empty views but mock will help us!"() {
         given:
+        1
         // FIXME we have a fragment but we don't run it through a lifecycle
 
-
         when:
+        1
         // FIXME i call fragments method to set label
 
         then:
