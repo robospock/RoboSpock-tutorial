@@ -154,6 +154,7 @@ class GroovySpec extends RoboSpecification {
 
         when:
         // FIXME bumpAge a few times
+        person
 
         then:
         person.age == 50
@@ -177,6 +178,7 @@ class GroovySpec extends RoboSpecification {
 
         when:
         // FIXME iterate over a map
+        map
 
         then:
         sum == 6
@@ -196,6 +198,7 @@ class GroovySpec extends RoboSpecification {
 
         when:
         // FIXME update map in place
+        map
 
         then:
         map.a == 1
